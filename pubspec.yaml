@@ -1,0 +1,41 @@
+name: sooqall
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # أيقونات iOS-style
+  cupertino_icons: ^1.0.8
+
+  # لاختيار كود الدولة (أرقام الهاتف)
+  country_code_picker: ^3.3.0
+
+  # لدعم الترجمة والتعريب
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # باكدجات إضافية شائعة لمشاريع مثل المتاجر الإلكترونية (اختياري)
+  provider: ^6.1.2          # لإدارة الحالة
+  http: ^1.2.2              # للاتصال بالـ APIs
+  shared_preferences: ^2.3.2 # لتخزين البيانات محلياً
+  flutter_svg: ^2.0.10+1    # لدعم صور SVG
+  google_fonts: ^6.2.1      # لاستخدام خطوط Google بسهولة
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
