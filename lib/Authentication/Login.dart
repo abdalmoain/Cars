@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:sooqall/Authentication/signUp.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,57 +27,78 @@ class _LoginScreenState extends State<LoginScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isMobile = size.width < 600;
+      height: isMobile ? size.height * 0.6 : 500;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: Center(
+     
+  resizeToAvoidBottomInset: false,
+  
 
-        // البورد الخارجي 
-        child: Container(
-          width: isMobile ? size.width * 0.9 : 400,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 6,
-                offset: const Offset(0, 3),
-              )
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Tabs
-              TabBar(
-                controller: _tabController,
-                labelColor: Colors.blue,
-                unselectedLabelColor: Colors.black54,
-                indicatorColor: Colors.blue,
-                tabs: const [
-                  Tab(text: "تسجيل الدخول"),
-                  Tab(text: "تسجيل"),
+      backgroundColor: Color(0xFF1e1e1e),
+      // Colors.grey[100],
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // الصورة الدائرية بالمنتصف
+       Image.asset("assets/images/Logo.png"
+       ,width: 130,
+       height: 150,
+       fit: BoxFit.contain,
+       ),
+            const SizedBox(height: 16),
+
+            // البورد الخارجي
+            Container(
+  width: isMobile ? size.width * 0.9 : 400,
+  height: isMobile ? size.height * 0.6 : 450,
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(30),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black12,
+        blurRadius: 6,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  ),
+  child: Column(
+    
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Tabs
+                  TabBar(
+                    controller: _tabController,
+                    labelColor: Colors.blue,
+                    unselectedLabelColor: Colors.black54,
+                    indicatorColor: Colors.blue,
+                    tabs: const [
+                      Tab(text: "تسجيل الدخول"),
+                      Tab(text: "تسجيل"),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // محتوى التبويبات
+                Expanded(
+                    
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // شاشة تسجيل الدخول
+                        _buildLoginForm(),
+                        // شاشة التسجيل (فارغة مؤقتاً)
+                        SignUp(),
+                        // const Center(child: Text("صفحة التسجيل")),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 16),
-
-              // محتوى التبويبات
-              SizedBox(
-                height: 350,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    // شاشة تسجيل الدخول
-                    _buildLoginForm(),
-                    // شاشة التسجيل (فارغة مؤقتاً)
-                    const Center(child: Text("صفحة التسجيل")),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -85,18 +107,22 @@ class _LoginScreenState extends State<LoginScreen>
   Widget _buildLoginForm() {
     return SingleChildScrollView(
       child: Column(
+        textDirection: TextDirection.rtl,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          
           // الهاتف + رمز الدولة
           TextFormField(
             controller: phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
+              
               labelText: "الهاتف",
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-              prefixIcon: CountryCodePicker(
+              prefixIcon: Icon(Icons.phone),
+              suffixIcon: CountryCodePicker(
                 onChanged: (code) {
                   setState(() {
                     countryCode = code.dialCode ?? "+963";
@@ -115,8 +141,7 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: passwordController,
             obscureText: true,
-            decoration: InputDecoration( 
-              
+            decoration: InputDecoration(
               labelText: "كلمة المرور",
               prefixIcon: const Icon(Icons.lock),
               border: OutlineInputBorder(
@@ -126,34 +151,38 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           const SizedBox(height: 8),
 
-          // نسيت كلمة المرور
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              onPressed: () {
-                // TODO: هنا تحط التنقل لصفحة استعادة كلمة المرور
-              },
-              child: const Text(
-                "نسيت كلمة المرور؟",
-                style: TextStyle(color: Colors.blue),
-              ),
-            ),
-          ),
-
-          // تذكرني
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Checkbox(
-                value: rememberMe,
-                onChanged: (val) {
-                  setState(() {
-                    rememberMe = val ?? false;
-                  });
+              TextButton(
+                onPressed: () {
+                  // الانتقال الى صفحة نسيت كلمة المرور
                 },
+                child: const Text(
+                  "نسيت كلمة المرور؟",
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
-              const Text("تذكرني"),
+
+              // checkbox + text مع بعض
+              Row(
+                children: [
+                  Checkbox(
+                    // checkColor: Colors.blue,
+                    activeColor: Colors.blue,
+                    value: rememberMe,
+                    onChanged: (val) {
+                      setState(() {
+                        rememberMe = val ?? false;
+                      });
+                    },
+                  ),
+                  const Text("تذكرني"),
+                ],
+              ),
             ],
           ),
+
           const SizedBox(height: 16),
 
           // زر تسجيل الدخول
@@ -167,8 +196,7 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
               ),
               onPressed: () {
-                String fullPhone =
-                    "$countryCode${phoneController.text.trim()}";
+                String fullPhone = "$countryCode${phoneController.text.trim()}";
                 String password = passwordController.text.trim();
                 debugPrint("📱 رقم الهاتف: $fullPhone");
                 debugPrint("🔑 كلمة المرور: $password");
@@ -184,4 +212,3 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 }
- 
